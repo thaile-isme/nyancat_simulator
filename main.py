@@ -49,8 +49,12 @@ class NyanCat:
 
 
 if __name__ == '__main__':
+    WIDTH, HEIGHT = 500, 500
+
     pygame.init()
-    screen = pygame.display.set_mode((500, 500))
+    screen = pygame.display.set_mode((WIDTH, HEIGHT))
+    bg = pygame.image.load('star_bg.jpg')
+    bg = pygame.transform.scale(bg, (bg.get_size()[0]//2, bg.get_size()[1]//2))
     pygame.display.set_caption('NyanCat Simulator')
     clock = pygame.time.Clock()
     nyan_cat = NyanCat()
@@ -61,6 +65,7 @@ if __name__ == '__main__':
     rainbow = ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple']
     offset = [-30, -18, -6, 6, 18, 30]
 
+    bg_frame = 0
     while 1:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
@@ -74,6 +79,12 @@ if __name__ == '__main__':
                         nyan_cat.rainbow(o + 1, pygame.Color(c))
 
         screen.fill((30, 30, 30))
+        screen.blit(bg, (bg_frame, 0))
+        screen.blit(bg, (bg_frame + WIDTH, 0))
+        if bg_frame == -WIDTH:
+            # screen.blit(bg, (bg_frame + WIDTH, 0))
+            bg_frame = 0
+        bg_frame -= 1
         nyan_cat.emit()
         pygame.display.update()
         clock.tick(120)
